@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
 const location = require("./routes/api/location");
+const trigger = require("./routes/api/trigger");
 const app = express();
 
 // body parser middleware
@@ -18,6 +19,7 @@ mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true})
 
 // Using the routes
 app.use("/location", location);
+app.use("/trigger", trigger);
 
 // port for connection
 const port = process.env.PORT || 5000;
