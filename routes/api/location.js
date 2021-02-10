@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 
 const Location = require('../../models/locationData');
-const Trigger = require('../../models/locationData');
 router.post('/',(req,res)=>{
     const query = { deviceID: req.body.deviceID };
     const update = { $set: { deviceID: req.body.deviceID, latitude: req.body.latitude, longitude: req.body.longitude}};

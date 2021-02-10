@@ -14,23 +14,23 @@ router.get('/',(req,res)=>{
                 res.json({
                     render: true,
                     latitude: obj[0].latitude,
-                    longitude: obj[0].longitude
+                    longitude: obj[0].longitude,
                 })
             })
             .catch((err)=>{
-                res.send({
+                res.json({
                     render: false,
                 })
             })
         }else{
-            res.send({
+            res.json({
                 render: false,
             })
         }
         
     })
     .catch((err)=>{
-        res.send({
+        res.json({
             render: false,
         })
     })
