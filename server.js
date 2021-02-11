@@ -1,15 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-var cors = require('cors');
+const cors = require('cors');
+const compression = require('compression');
 
 const location = require("./routes/api/location");
 const trigger = require("./routes/api/trigger");
 const app = express();
 
-// body parser and cors middleware
-app.use(bodyParser.json());
-app.use(cors());
+// middleware setup
+app.use(bodyParser.json());     //usage of body parser
+app.use(cors());                //allow cross origin reference
+app.use(compression());         //compress all the route responses
 
 // DB configuration
 const url = require('./config/keys').mongoURI;
