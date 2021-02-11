@@ -61,9 +61,12 @@ router.post('/',(req,res)=>{
 
 router.delete('/',(req,res)=>{
     const callerID = req.body.deviceID;
-    Trigger.deleteMany({callerID: callerID},function(err,doc){
-        if (err){res.sendStatus(500)} 
-        else{res.sendStatus(200)} 
+    Trigger.deleteMany({callerID: callerID})
+    .then((doc)=>{
+        res.sendStatus(200);
+    })
+    .catch((err)=>{
+        res.sendStatus(400);
     })
 })
 

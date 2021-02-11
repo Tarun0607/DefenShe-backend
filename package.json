@@ -1,5 +1,5 @@
 {
-  "name": "defenshe",
+  "name": "defenshe-backend",
   "version": "1.0.0",
   "description": "A geofence based security alert system for women",
   "main": "server.js",
