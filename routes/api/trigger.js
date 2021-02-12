@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const path = require('path');
 
-const Location = require('../../models/locationData');
-const Trigger = require('../../models/triggerData');
+const Location = require(path.join(__dirname,'..','..', 'models','locationData'));
+const Trigger = require(path.join(__dirname,'..','..', 'models','triggerData'));
 
 router.get('/',(req,res)=>{
     const proxyID = req.body.deviceID;
@@ -68,6 +69,14 @@ router.delete('/',(req,res)=>{
     .catch((err)=>{
         res.sendStatus(400);
     })
+})
+
+router.get('*',(req,res) =>{
+    res.status(404).json({message: "Route not found"})
+})
+
+router.post('*',(req,res) =>{
+    res.status(404).json({message: "Route not found"})
 })
 
 module.exports = router;

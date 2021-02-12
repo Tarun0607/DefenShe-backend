@@ -3,9 +3,10 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const compression = require('compression');
+const path = require('path');
 
-const location = require("./routes/api/location");
-const trigger = require("./routes/api/trigger");
+const location = require(path.join(__dirname, 'routes','api','location'));
+const trigger = require(path.join(__dirname, 'routes','api','trigger'));
 const app = express();
 
 // middleware setup
@@ -31,6 +32,7 @@ const port = process.env.PORT || 5000;
 // listen for connection
 app.listen(port, () => console.log("Server started at "+port));
 
-app.get("/",(req,res)=>{
-    res.send("Homepage")
+// setting up the defafult route other than location and trigger
+app.get("*",(req,res)=>{
+    res.json({"server": "DefenShe"})
 })
