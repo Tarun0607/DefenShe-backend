@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const path = require('path');
-const { route } = require("./trigger");
 
 const Location = require(path.join(__dirname,'..','..', 'models','locationData'));
 router.post('/',(req,res)=>{
