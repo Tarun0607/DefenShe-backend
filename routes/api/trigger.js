@@ -39,10 +39,10 @@ router.get('/:id',(req,res)=>{
 
 router.post('/',(req,res)=>{
     const callerID = req.body.deviceID;
-    const lat1 = parseFloat(req.body.latitude)+0.003;
-    const lat2 = parseFloat(req.body.latitude)-0.003;
-    const lon1 = parseFloat(req.body.longitude)+0.003;
-    const lon2 = parseFloat(req.body.longitude)-0.003;
+    const lat1 = parseFloat(req.body.latitude)+0.093; // 0.003
+    const lat2 = parseFloat(req.body.latitude)-0.093;
+    const lon1 = parseFloat(req.body.longitude)+0.093;
+    const lon2 = parseFloat(req.body.longitude)-0.093;
     Location.find({latitude: { $lte: lat1, $gte: lat2 }, longitude: { $lte: lon1, $gte: lon2 }})
     .then((arr)=>{
         arr.forEach((proxy)=>{
