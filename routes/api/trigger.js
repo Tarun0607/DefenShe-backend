@@ -5,8 +5,8 @@ const path = require('path');
 const Location = require(path.join(__dirname,'..','..', 'models','locationData'));
 const Trigger = require(path.join(__dirname,'..','..', 'models','triggerData'));
 
-router.get('/',(req,res)=>{
-    const proxyID = req.body.deviceID;
+router.get('/:id',(req,res)=>{
+    const proxyID = req.params.id;
     Trigger.find({proxyID: proxyID})
     .then((object)=>{
         if(object){
