@@ -1,10 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const path = require('path');
-
+const fetch = require('node-fetch')
 const Location = require(path.join(__dirname,'..','..', 'models','locationData'));
 const Trigger = require(path.join(__dirname,'..','..', 'models','triggerData'));
 
+async function sendNotification(token){
+    const message = {
+        to: token,
+        sound: 'default',
+        title: 'Alert, there is an emergency around you',
+        body: 'Your presence might help someone, care to help?',
+      };
+      fetch('https://exp.host/--/api/v2/push/send', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Accept-encoding': 'gzip, deflate',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(message),
+      })
+}
 router.get('/:id',(req,res)=>{
     const proxyID = req.params.id;
     Trigger.find({proxyID: proxyID})
@@ -50,8 +67,10 @@ router.post('/',(req,res)=>{
                 proxyID: proxy.deviceID,
                 callerID: callerID,
             })
-            if(proxy.deviceID!==callerID)
-            triggerObj.save();
+            if(proxy.deviceID!==callerID){
+                sendNotification(proxy.deviceID);
+                triggerObj.save();
+            }
         })
         res.sendStatus(200);
     })
