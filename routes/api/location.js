@@ -15,8 +15,10 @@ const crypt = new Crypt({
 const Location = require(path.join(__dirname,'..','..', 'models','locationData'));
 router.post('/',(req,res)=>{
     var decryptedID = crypt.decrypt(privateKey, req.body.deviceID).message;
+    var decryptedLat = crypt.decrypt(privateKey, req.body.latitude).message;
+    var decryptedLon = crypt.decrypt(privateKey, req.body.longitude).message;
     const query = { deviceID: decryptedID };
-    const update = { $set: { deviceID: decryptedID, latitude: req.body.latitude, longitude: req.body.longitude}};
+    const update = { $set: { deviceID: decryptedID, latitude: decryptedLat, longitude: decryptedLon}};
     const options = { upsert: true };
     Location.updateOne(query, update, options)
     .then((doc)=>{

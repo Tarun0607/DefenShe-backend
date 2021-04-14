@@ -16,7 +16,6 @@ app.use(compression());         //compress all the route responses
 
 // DB configuration
 const url = require('./config/keys').mongoURI;
-
 // database connection
 mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true})
     .then(()=> console.log("Connected to mongoDB"))
