@@ -25,6 +25,7 @@ mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true})
 // Using the routes
 app.use("/location", location);
 app.use("/trigger", trigger);
+app.use("/feed", feed);
 
 // port for connection
 const port = process.env.PORT || 5000;
