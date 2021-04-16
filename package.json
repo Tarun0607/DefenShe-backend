@@ -19,6 +19,7 @@
     "hybrid-crypto-js": "^0.2.4",
     "mongoose": "^5.11.15",
     "mongoose-float": "^1.0.4",
+    "newsapi": "^2.4.1",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.7",
     "path": "^0.12.7"

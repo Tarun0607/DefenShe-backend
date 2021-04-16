@@ -7,6 +7,7 @@ const path = require('path');
 
 const location = require(path.join(__dirname, 'routes','api','location'));
 const trigger = require(path.join(__dirname, 'routes','api','trigger'));
+const feed = require(path.join(__dirname, 'routes','api','feed'));
 const app = express();
 
 // middleware setup
