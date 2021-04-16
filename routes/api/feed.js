@@ -6,28 +6,41 @@ const newsapi = new NewsAPI('233d7e0f50b8470cbe81df7655a35e3f');
 const News = require(path.join(__dirname,'..','..', 'models','feedData'));
 
 async function fetchNewsFeeds(){
-    var resp; 
+    console.log("fetching feed")
     const response = await newsapi.v2.everything({q: 'women security',language: 'en',});
     const newsItem = [];
-    response.articles.forEach(article=>{
-        const item = {
-            title: article.title,
-            description: article.description,
-            imageUri: article.urlToImage,
-            url: article.url,
-            date: article.publishedAt,
-        }
-        console.log(item);
-        newsItem.push(item);
+    News.deleteMany({})
+    .then((msg)=>{
+        response.articles.forEach(article=>{
+            const item = {
+                title: article.title,
+                description: article.description,
+                imageUri: article.urlToImage,
+                url: article.url,
+                date: article.publishedAt,
+            }
+            newsItem.push(item);
+        })
+        News.insertMany(newsItem)
+        .then((resp)=>{
+        })
+        .catch((err)=>{
+        });
     })
-    News.insertMany(newsItem);
-    //console.log(newsItem)
-    return response;
+    .catch(err=>{
+        console.log("Unable to fetch news")
+    });
 }
+setInterval(fetchNewsFeeds, 900000);
 
 router.get('/fetch',async (req,res)=>{
-    const newsFeeds = await fetchNewsFeeds();
-    res.send(newsFeeds);
+    News.find({})
+    .then(response=>{
+        res.send(response);
+    })
+    .catch(err=>{
+        res.json({})
+    })
 })
 
 module.exports = router;
