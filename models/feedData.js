@@ -5,9 +5,9 @@ const Schema = mongoose.Schema;
 const feedSchema = new Schema({
     title:{ type: String, required: true},
     description:{ type: String, required: true},
-    image:{ type: String, required: true},
-    url:{ type: String, required: true},
-    date:{ type: Date, required: true},
+    imageUri:{ type: String, required: false},
+    url:{ type: String, required: false},
+    date:{ type: Date, required: false},
 },{ timestamps: true });
 
 module.exports = mongoose.model('feed', feedSchema);
