@@ -6,7 +6,6 @@ const newsapi = new NewsAPI('233d7e0f50b8470cbe81df7655a35e3f');
 const News = require(path.join(__dirname,'..','..', 'models','feedData'));
 
 async function fetchNewsFeeds(){
-    console.log("fetch")
     newsapi.v2.everything({q: '(women safety rules OR crime against women OR women security) AND (+indian OR +women OR +woman)',language: 'en', sortBy:'relevancy', page: 1})
     .then((response)=>{
         const newsItem = [];
@@ -15,7 +14,7 @@ async function fetchNewsFeeds(){
             response.articles.forEach(article=>{
                 const item = {
                     title: article.title,
-                    description: article.description,
+                    source: article.source.name,
                     imageUri: article.urlToImage,
                     url: article.url,
                     date: article.publishedAt,
@@ -33,7 +32,7 @@ async function fetchNewsFeeds(){
                 response.articles.forEach(article=>{
                     const item = {
                         title: article.title,
-                        description: article.description,
+                        source: article.source.name,
                         imageUri: article.urlToImage,
                         url: article.url,
                         date: article.publishedAt,
@@ -51,7 +50,7 @@ async function fetchNewsFeeds(){
                     response.articles.forEach(article=>{
                         const item = {
                             title: article.title,
-                            description: article.description,
+                            source: article.source.name,
                             imageUri: article.urlToImage,
                             url: article.url,
                             date: article.publishedAt,
