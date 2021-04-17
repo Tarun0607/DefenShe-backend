@@ -6,8 +6,8 @@ const newsapi = new NewsAPI('233d7e0f50b8470cbe81df7655a35e3f');
 const News = require(path.join(__dirname,'..','..', 'models','feedData'));
 
 async function fetchNewsFeeds(){
-    console.log("fetching feed")
-    newsapi.v2.everything({q: 'women-security',language: 'en', sortBy:'relevancy', page: 1})
+    console.log("fetch")
+    newsapi.v2.everything({q: '(women safety rules OR crime against women OR women security) AND (+indian OR +women OR +woman)',language: 'en', sortBy:'relevancy', page: 1})
     .then((response)=>{
         const newsItem = [];
         News.deleteMany({})
@@ -27,6 +27,50 @@ async function fetchNewsFeeds(){
             })
             .catch((err)=>{
             });
+            newsapi.v2.everything({q: '(women safety rules OR crime against women OR women security) AND (+indian OR +women OR +woman)',language: 'en', sortBy:'relevancy', page: 2})
+            .then((response)=>{
+                const newsItem = [];
+                response.articles.forEach(article=>{
+                    const item = {
+                        title: article.title,
+                        description: article.description,
+                        imageUri: article.urlToImage,
+                        url: article.url,
+                        date: article.publishedAt,
+                    }
+                    newsItem.push(item);
+                })
+                News.insertMany(newsItem)
+                .then((resp)=>{
+                })
+                .catch((err)=>{
+                });
+                newsapi.v2.everything({q: '(women safety rules OR crime against women OR women security) AND (+indian OR +women OR +woman)',language: 'en', sortBy:'relevancy', page: 3})
+                .then((response)=>{
+                    const newsItem = [];
+                    response.articles.forEach(article=>{
+                        const item = {
+                            title: article.title,
+                            description: article.description,
+                            imageUri: article.urlToImage,
+                            url: article.url,
+                            date: article.publishedAt,
+                        }
+                        newsItem.push(item);
+                    })
+                    News.insertMany(newsItem)
+                    .then((resp)=>{
+                    })
+                    .catch((err)=>{
+                    });
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+            })
+            .catch(err=>{
+                console.log(err)
+            })
         })
         .catch(err=>{
             console.log("Unable to fetch news")
@@ -35,31 +79,9 @@ async function fetchNewsFeeds(){
     .catch(err=>{
         console.log(err)
     })
-    newsapi.v2.everything({q: 'women-security',language: 'en', sortBy:'relevancy', page: 2})
-    .then((response)=>{
-        const newsItem = [];
-        response.articles.forEach(article=>{
-            const item = {
-                title: article.title,
-                description: article.description,
-                imageUri: article.urlToImage,
-                url: article.url,
-                date: article.publishedAt,
-            }
-            newsItem.push(item);
-        })
-        News.insertMany(newsItem)
-        .then((resp)=>{
-        })
-        .catch((err)=>{
-        });
-    })
-    .catch(err=>{
-        console.log(err)
-    })
-    
 }
-setInterval(fetchNewsFeeds, 9000);
+fetchNewsFeeds();
+setInterval(fetchNewsFeeds, 2700000);
 
 router.get('/fetch',async (req,res)=>{
     News.find({})
