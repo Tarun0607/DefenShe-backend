@@ -8,6 +8,7 @@ const path = require('path');
 const location = require(path.join(__dirname, 'routes','api','location'));
 const trigger = require(path.join(__dirname, 'routes','api','trigger'));
 const feed = require(path.join(__dirname, 'routes','api','feed'));
+const credit = require(path.join(__dirname, 'routes','api','credit'));
 const app = express();
 
 // middleware setup
@@ -26,6 +27,7 @@ mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true})
 app.use("/location", location);
 app.use("/trigger", trigger);
 app.use("/feed", feed);
+app.use("/credit", credit);
 
 // port for connection
 const port = process.env.PORT || 5000;
@@ -33,7 +35,7 @@ const port = process.env.PORT || 5000;
 // listen for connection
 app.listen(port, () => console.log("Server started at "+port));
 
-// setting up the defafult route other than location and trigger
+// setting up the default route other than location and trigger
 app.get("*",(req,res)=>{
     res.json({"server": "DefenShe"})
 })
