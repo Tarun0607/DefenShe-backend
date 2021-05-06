@@ -29,13 +29,14 @@ router.get('/:id',(req,res)=>{
 
 router.post('/',(req,res)=>{
     var deviceID = req.body.deviceID;
+    var userName = req.body.name;
     var updateCredit = Number(req.body.credit);
     Credit.find({deviceID: deviceID})
     .then((object)=>{
         if(object.length>0){
             var creditRem = Number(object[0].credit);
             const query = { deviceID: deviceID };
-            const update = { $set: { deviceID: deviceID, credit: creditRem+updateCredit}};
+            const update = { $set: { deviceID: deviceID, userName:userName, credit: creditRem+updateCredit}};
             const options = { upsert: true };
             Credit.updateOne(query, update, options)
             .then((doc)=>{
@@ -46,7 +47,7 @@ router.post('/',(req,res)=>{
             })        
         }else{
             const query = { deviceID: deviceID };
-            const update = { $set: { deviceID: deviceID, credit: 0}};
+            const update = { $set: { deviceID: deviceID, userName:userName, credit: 0}};
             const options = { upsert: true };
             Credit.updateOne(query, update, options)
             .then((doc)=>{
