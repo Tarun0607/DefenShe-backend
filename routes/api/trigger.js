@@ -4,6 +4,7 @@ const path = require('path');
 const fetch = require('node-fetch')
 const Location = require(path.join(__dirname,'..','..', 'models','locationData'));
 const Trigger = require(path.join(__dirname,'..','..', 'models','triggerData'));
+const Credit = require(path.join(__dirname,'..','..', 'models','creditData'));
 
 async function sendNotification(token){
     const message = {
@@ -81,12 +82,33 @@ router.post('/',(req,res)=>{
 
 router.delete('/',(req,res)=>{
     const callerID = req.body.deviceID;
-    Trigger.deleteMany({callerID: callerID})
-    .then((doc)=>{
-        res.sendStatus(200);
+    var arr=[];
+    Trigger.find({callerID: callerID})
+    .then((result)=>{
+        result.forEach((object)=>{
+            Credit.find({deviceID: object.proxyID})
+            .then((obj)=>{  
+                if(obj.length>0){
+                    arr.push({deviceID: obj[0].deviceID, name: obj[0].userName});
+                }
+            })
+        })
+        Trigger.deleteMany({callerID: callerID})
+        .then((doc)=>{
+            res.json(arr);
+        })
+        .catch((err)=>{
+            res.json(arr);
+        })
     })
     .catch((err)=>{
-        res.sendStatus(400);
+        Trigger.deleteMany({callerID: callerID})
+        .then((doc)=>{
+            res.json(arr);
+        })
+        .catch((err)=>{
+            res.json(arr);
+        })
     })
 })
 
